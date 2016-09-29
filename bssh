@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#I needed something better than a flat test file to store the IP's and some name for servers to which I frequently SSH.
+#Brian
+
+myusername="put yout login name here"
+wecallthis="bssh"
+
+
+name_add () {
+/usr/bin/perl -pi -e "s/^CHOOSE ONE OF THE ABOVE NAMES/  $1\nCHOOSE ONE OF THE ABOVE NAMES/" /home/$myusername/bin/$wecallthis
+}
+
+ipaddr_add () {
+/usr/bin/perl -pi -e "s/^esac/  $1 \)\n    \/usr\/bin\/ssh $myusername\@$2\;\;\nesac/" /home/$myusername/bin/$wecallthis
+}                                                                                                                                                                                   
+                                                                                                                                                                                    
+if [[ $# -eq 0 ]] ; then                                                                                                                                                            
+    /bin/echo "                                                                                                                                                                     
+TYPE THE NAME OF A HOST TO CONNECT AS AN ARG TO bssh                                                                                                                                
+CHOOSE ONE OF THE ABOVE NAMES                                                                                                                                                                   
+    "                                                                                                                                                                                           
+    exit 0                                                                                                                                                                                      
+fi                                                                                                                                                                                              
+                                                                                                                                                                                                
+                                                                                                                                                                                                
+case $1 in                                                                                                                                                                                      
+  -h )                                                                                                                                                                                          
+    echo "You may add new entries with: 
+        $wecallthis add \$name \$ip-addr";;
+  add )
+    name_add $2
+    ipaddr_add $2 $3;;
+esac
